@@ -18,7 +18,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## To connect to database
 
-1. import cs4354-seismic-shield.sql to you local device
-2. update .env.local file with the correct credentials
-3. run `npm install`
-4. run `npm run dev`
+1. On your local environment, create a new database called cs4354.project `create database cs4354.project;`
+2. Import cs4354-seismic-shield.sql to you cs4354.project database `source cs4354-seismic-shield.sql;`
+3. Update .env.local file with the correct credentials for your local environment/device
+4. Run `npm install`
+5. Run `npm run dev`
