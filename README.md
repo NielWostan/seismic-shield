@@ -20,4 +20,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 1. import cs4354-seismic-shield.sql to you local device
 2. update .env.local file with the correct credentials
-3. run `npm run dev`
+3. run `npm install`
+4. run `npm run dev`
