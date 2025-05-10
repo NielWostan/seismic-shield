@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Block } from '@/components/block';
+import { useState } from "react";
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
 
 const Submit = ({
   label,
-  onSubmit
+  onSubmit,
 }: {
   label: string;
   onSubmit: () => void;
@@ -20,8 +21,8 @@ const Submit = ({
 
 export default function RegisterReliefCenterPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    address: ''
+    name: "",
+    address: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
@@ -30,24 +31,24 @@ export default function RegisterReliefCenterPage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('/api/register-center', {
-        method: 'POST',
+      const response = await fetch("/api/register-center", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('Submission failed:', error);
-        alert('Failed to register relief center.');
+        console.error("Submission failed:", error);
+        alert("Failed to register relief center.");
       } else {
-        alert('Relief center registered successfully!');
+        alert("Relief center registered successfully!");
       }
     } catch (err) {
-      console.error('Error submitting relief center:', err);
-      alert('An error occurred during submission.');
+      console.error("Error submitting relief center:", err);
+      alert("An error occurred during submission.");
     }
   };
 
@@ -55,15 +56,20 @@ export default function RegisterReliefCenterPage() {
     <div className="w-full flex justify-center py-16">
       <div className="w-1/2 flex flex-col gap-8">
         <h1 className="text-4xl">Register Relief Center</h1>
+        <Info
+          file="app/api/register-center/route.ts"
+          query="INSERT INTO RELIEF_CENTER (name, address)
+      VALUES (?, ?)"
+        />
         <Block
           label="Name"
           value={formData.name}
-          onChange={handleChange('name')}
+          onChange={handleChange("name")}
         />
         <Block
           label="Address"
           value={formData.address}
-          onChange={handleChange('address')}
+          onChange={handleChange("address")}
         />
         <Submit label="Submit" onSubmit={handleSubmit} />
       </div>

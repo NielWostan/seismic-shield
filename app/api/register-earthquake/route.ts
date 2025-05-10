@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       time,
       latitude,
       longitude,
-      affectedCountyId,
+      areaID,
       name,
       population,
       damages,
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     const insertQuery = `
       INSERT INTO earthquake (
         earthquake_id, magnitude, date, time, latitude, longitude,
-        affected_county_id, name, population, damages
+        area_id, name, population, damages
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       time || null,
       latitude || null,
       longitude || null,
-      affectedCountyId || null,
+      areaID || null,
       name || null,
       population || null,
       damages || null,

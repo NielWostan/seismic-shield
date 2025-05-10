@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { Block } from '@/components/block';
-import { useState } from 'react';
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
+import { useState } from "react";
 
 const Submit = ({
   label,
-  onSubmit
+  onSubmit,
 }: {
   label: string;
   onSubmit: () => void;
@@ -20,16 +21,16 @@ const Submit = ({
 
 export default function Page() {
   const [formData, setFormData] = useState({
-    id: '',
-    magnitude: '',
-    date: '',
-    time: '',
-    latitude: '',
-    longitude: '',
-    affectedCountyId: '',
-    name: '',
-    population: '',
-    damages: ''
+    id: "",
+    magnitude: "",
+    date: "",
+    time: "",
+    latitude: "",
+    longitude: "",
+    areaID: "",
+    name: "",
+    population: "",
+    damages: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
@@ -38,27 +39,27 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('/api/register-earthquake', {
-        method: 'POST',
+      const response = await fetch("/api/register-earthquake", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('Submission failed:', error);
+        console.error("Submission failed:", error);
         alert(
-          'Failed to submit data. Please check the console for details. ' +
+          "Failed to submit data. Please check the console for details. " +
             error.error
         );
       } else {
-        alert('Earthquake data submitted successfully!');
+        alert("Earthquake data submitted successfully!");
       }
     } catch (err) {
-      console.error('Submission error:', err);
-      alert('An error occurred while submitting the data. ' + err);
+      console.error("Submission error:", err);
+      alert("An error occurred while submitting the data. " + err);
     }
   };
 
@@ -67,56 +68,63 @@ export default function Page() {
       <div className="w-1/2">
         <div className="flex flex-col gap-8">
           <p className="!text-4xl">Earthquake Data</p>
-          <Block label="ID" value={formData.id} onChange={handleChange('id')} />
+          <Info
+            file="app/api/register-earthquake/route.ts"
+            query="INSERT INTO earthquake (
+        earthquake_id, magnitude, date, time, latitude, longitude,
+        area_id, name, population, damages
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       "
+          />
           <Block
             label="Magnitude"
             value={formData.magnitude}
-            onChange={handleChange('magnitude')}
+            onChange={handleChange("magnitude")}
           />
           <div className="flex gap-4">
             <Block
-              label="Date"
+              label="Date (YYYY-MM-DD)"
               value={formData.date}
-              onChange={handleChange('date')}
+              onChange={handleChange("date")}
             />
             <Block
-              label="Time"
+              label="Time (HH:MM:SS)"
               value={formData.time}
-              onChange={handleChange('time')}
+              onChange={handleChange("time")}
             />
           </div>
           <div className="flex gap-4">
             <Block
               label="Latitude"
               value={formData.latitude}
-              onChange={handleChange('latitude')}
+              onChange={handleChange("latitude")}
             />
             <Block
               label="Longitude"
               value={formData.longitude}
-              onChange={handleChange('longitude')}
+              onChange={handleChange("longitude")}
             />
           </div>
           <Block
             label="Affected County ID"
-            value={formData.affectedCountyId}
-            onChange={handleChange('affectedCountyId')}
+            value={formData.areaID}
+            onChange={handleChange("areaID")}
           />
           <div className="flex gap-4">
             <Block
               label="Name"
               value={formData.name}
-              onChange={handleChange('name')}
+              onChange={handleChange("name")}
             />
             <Block
               label="Population"
               value={formData.population}
-              onChange={handleChange('population')}
+              onChange={handleChange("population")}
             />
             <Block
               label="Damages"
               value={formData.damages}
-              onChange={handleChange('damages')}
+              onChange={handleChange("damages")}
             />
           </div>
           <Submit label="Submit" onSubmit={handleSubmit} />

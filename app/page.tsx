@@ -44,10 +44,40 @@ export default async function Page() {
         Volunteers by Center
       </Link>
       <Link
-        href="/get-volunteers"
+        href="/victim-severity"
         className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-64 text-center"
       >
-        Get Victims
+        Get Victim Severity
+      </Link>
+      <Link
+        href="/get-victims"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-64 text-center"
+      >
+        Get Victim Stats
+      </Link>
+      <Link
+        href="/all-people"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-64 text-center"
+      >
+        List All People
+      </Link>
+      <Link
+        href="/above-avg-centers"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-auto text-center"
+      >
+        Centers with Above Avg Supplies
+      </Link>
+      <Link
+        href="/critical-victims-percentage"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-auto text-center"
+      >
+        Most Affected Counties
+      </Link>
+      <Link
+        href="/earthquake-impact"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-auto text-center"
+      >
+        Earthquake Impact Summary
       </Link>
     </div>
   );

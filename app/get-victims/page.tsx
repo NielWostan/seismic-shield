@@ -1,21 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Block } from '@/components/block';
+import { useState, useEffect } from "react";
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
 
 export default function VictimListPage() {
-  const [areaId, setAreaId] = useState('');
+  const [areaId, setAreaId] = useState("");
   const [victims, setVictims] = useState<any[]>([]);
 
   const fetchVictims = async () => {
     try {
-      const query = areaId ? `?areaId=${encodeURIComponent(areaId)}` : '';
+      const query = areaId ? `?areaId=${encodeURIComponent(areaId)}` : "";
       const res = await fetch(`/api/get-victims${query}`);
-      if (!res.ok) throw new Error('Failed to fetch victims');
+      if (!res.ok) throw new Error("Failed to fetch victims");
       const data = await res.json();
       setVictims(data);
     } catch (error) {
-      console.error('Error fetching victims:', error);
+      console.error("Error fetching victims:", error);
     }
   };
 
@@ -27,20 +28,19 @@ export default function VictimListPage() {
     <div className="w-full flex justify-center py-16">
       <div className="w-2/3 flex flex-col gap-8">
         <h1 className="text-4xl">Victims</h1>
-        <div className="flex gap-4 items-end">
-          <Block
-            label="Area ID"
-            value={areaId}
-            onChange={(val) => setAreaId(val)}
-          />
-          <button
-            onClick={fetchVictims}
-            className="h-14 px-6 text-lg bg-black text-white rounded-md"
-          >
-            Search
-          </button>
-        </div>
-
+        <Info
+          file="app/api/get-victims/route.ts"
+          query="SELECT 
+        a.area_id,
+        a.name AS county_name,
+        COUNT(v.ssn) AS victim_count,
+        GROUP_CONCAT(p.name SEPARATOR ', ') AS victim_names
+      FROM VICTIM v
+      JOIN AFFECTED_COUNTY a ON v.area_id = a.area_id
+      JOIN PERSON p ON v.ssn = p.ssn
+      GROUP BY a.area_id, a.name
+      ORDER BY victim_count DESC;"
+        />
         {victims.length > 0 ? (
           <ul className="space-y-4">
             {victims.map((v, idx) => (
@@ -49,25 +49,13 @@ export default function VictimListPage() {
                 className="p-4 border rounded bg-white text-black shadow"
               >
                 <p>
-                  <strong>SSN:</strong> {v.ssn}
-                </p>
-                <p>
-                  <strong>Victim Name:</strong> {v.victim_name}
-                </p>
-                <p>
-                  <strong>Victim Address:</strong> {v.victim_address}
-                </p>
-                <p>
-                  <strong>Affected Area ID:</strong> {v.area_id}
-                </p>
-                <p>
                   <strong>County Name:</strong> {v.county_name}
                 </p>
                 <p>
-                  <strong>County Population:</strong> {v.county_population}
+                  <strong>Victim Count:</strong> {v.victim_count}
                 </p>
                 <p>
-                  <strong>Damages:</strong> {v.damages}
+                  <strong>Victim Names:</strong> {v.victim_names}
                 </p>
               </li>
             ))}

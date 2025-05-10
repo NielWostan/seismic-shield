@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Block } from '@/components/block';
+import { useState } from "react";
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
 
 const Submit = ({
   label,
-  onSubmit
+  onSubmit,
 }: {
   label: string;
   onSubmit: () => void;
@@ -20,12 +21,12 @@ const Submit = ({
 
 export default function RegisterVictimPage() {
   const [formData, setFormData] = useState({
-    ssn: '',
-    name: '',
-    address: '',
-    areaId: '',
-    condition_text: '',
-    treatment: ''
+    ssn: "",
+    name: "",
+    address: "",
+    areaId: "",
+    condition_text: "",
+    treatment: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
@@ -34,24 +35,24 @@ export default function RegisterVictimPage() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('/api/register-victim', {
-        method: 'POST',
+      const response = await fetch("/api/register-victim", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('Submission failed:', error);
-        alert('Failed to register victim. ' + error);
+        console.error("Submission failed:", error);
+        alert("Failed to register victim. " + error);
       } else {
-        alert('Victim registered successfully!');
+        alert("Victim registered successfully!");
       }
     } catch (err) {
-      console.error('Error submitting victim:', err);
-      alert('An error occurred during submission. ' + err);
+      console.error("Error submitting victim:", err);
+      alert("An error occurred during submission. " + err);
     }
   };
 
@@ -59,35 +60,42 @@ export default function RegisterVictimPage() {
     <div className="w-full flex justify-center py-16">
       <div className="w-1/2 flex flex-col gap-8">
         <h1 className="text-4xl">Register Victim</h1>
+        <Info
+          file="app/api/register-victim/route.ts"
+          query="INSERT INTO VICTIM (ssn, area_id, condition_text, treatment)
+      VALUES (?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE area_id = VALUES(area_id), condition_text = VALUES(condition_text), treatment = VALUES(treatment)
+               "
+        />
         <Block
           label="SSN"
           value={formData.ssn}
-          onChange={handleChange('ssn')}
+          onChange={handleChange("ssn")}
         />
         <Block
           label="Name"
           value={formData.name}
-          onChange={handleChange('name')}
+          onChange={handleChange("name")}
         />
         <Block
           label="Address"
           value={formData.address}
-          onChange={handleChange('address')}
+          onChange={handleChange("address")}
         />
         <Block
           label="Area ID"
           value={formData.areaId}
-          onChange={handleChange('areaId')}
+          onChange={handleChange("areaId")}
         />
         <Block
           label="Condition"
           value={formData.condition_text}
-          onChange={handleChange('condition_text')}
+          onChange={handleChange("condition_text")}
         />
         <Block
           label="Treatment"
           value={formData.treatment}
-          onChange={handleChange('treatment')}
+          onChange={handleChange("treatment")}
         />
         <Submit label="Submit" onSubmit={handleSubmit} />
       </div>

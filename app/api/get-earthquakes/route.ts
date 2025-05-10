@@ -8,7 +8,11 @@ export async function GET(_req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
-    const [rows] = await connection.query("SELECT * FROM earthquake");
+    const [rows] = await connection.query(`SELECT *
+      FROM 
+          EARTHQUAKE E
+      JOIN 
+          AFFECTED_COUNTY A ON E.area_id = A.area_id`);
 
     await connection.end();
 

@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { Block } from '@/components/block';
-import { useState } from 'react';
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
+import { useState } from "react";
 
 const Submit = ({
   label,
-  onSubmit
+  onSubmit,
 }: {
   label: string;
   onSubmit: () => void;
@@ -20,10 +21,10 @@ const Submit = ({
 
 export default function Page() {
   const [formData, setFormData] = useState({
-    ssn: '',
-    name: '',
-    address: '',
-    centerId: ''
+    ssn: "",
+    name: "",
+    address: "",
+    centerId: "",
   });
 
   const handleChange = (field: keyof typeof formData) => (value: string) => {
@@ -32,27 +33,27 @@ export default function Page() {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('/api/register-volunteer', {
-        method: 'POST',
+      const response = await fetch("/api/register-volunteer", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        console.error('Submission failed:', error);
+        console.error("Submission failed:", error);
         alert(
-          'Failed to submit data. Please check the console for details. ' +
+          "Failed to submit data. Please check the console for details. " +
             error.error
         );
       } else {
-        alert('Volunteer data submitted successfully!');
+        alert("Volunteer data submitted successfully!");
       }
     } catch (err) {
-      console.error('Submission error:', err);
-      alert('An error occurred while submitting the data. ' + err);
+      console.error("Submission error:", err);
+      alert("An error occurred while submitting the data. " + err);
     }
   };
 
@@ -61,25 +62,31 @@ export default function Page() {
       <div className="w-1/2">
         <div className="flex flex-col gap-8">
           <p className="!text-4xl">Register Volunteer</p>
+          <Info
+            file="app/api/register-volunteer/route.ts"
+            query="INSERT INTO VOLUNTEER (ssn, center_id)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE center_id = VALUES(center_id)"
+          />
           <Block
             label="SSN"
             value={formData.ssn}
-            onChange={handleChange('ssn')}
+            onChange={handleChange("ssn")}
           />
           <Block
             label="Name"
             value={formData.name}
-            onChange={handleChange('name')}
+            onChange={handleChange("name")}
           />
           <Block
             label="Address"
             value={formData.address}
-            onChange={handleChange('address')}
+            onChange={handleChange("address")}
           />
           <Block
             label="Center ID"
             value={formData.centerId}
-            onChange={handleChange('centerId')}
+            onChange={handleChange("centerId")}
           />
           <Submit label="Submit" onSubmit={handleSubmit} />
         </div>

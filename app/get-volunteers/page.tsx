@@ -1,21 +1,22 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Block } from '@/components/block';
+import { useState, useEffect } from "react";
+import { Block } from "@/components/block";
+import { Info } from "@/components/info";
 
 export default function VolunteerListPage() {
-  const [centerId, setCenterId] = useState('');
+  const [centerId, setCenterId] = useState("");
   const [volunteers, setVolunteers] = useState<any[]>([]);
 
   const fetchVolunteers = async () => {
     try {
-      const query = centerId ? `?centerId=${encodeURIComponent(centerId)}` : '';
+      const query = centerId ? `?centerId=${encodeURIComponent(centerId)}` : "";
       const res = await fetch(`/api/get-volunteers${query}`);
-      if (!res.ok) throw new Error('Failed to fetch volunteers');
+      if (!res.ok) throw new Error("Failed to fetch volunteers");
       const data = await res.json();
       setVolunteers(data);
     } catch (error) {
-      console.error('Error fetching volunteers:', error);
+      console.error("Error fetching volunteers:", error);
     }
   };
 
@@ -27,6 +28,21 @@ export default function VolunteerListPage() {
     <div className="w-full flex justify-center py-16">
       <div className="w-2/3 flex flex-col gap-8">
         <h1 className="text-4xl">Volunteers</h1>
+        <Info
+          file="app/api/get-volunteers/route.ts"
+          query="SELECT 
+          v.ssn, 
+          p.name AS volunteer_name, 
+          p.address AS volunteer_address,
+          v.center_id,
+          r.name AS center_name,
+          r.address AS center_address
+        FROM VOLUNTEER v
+        JOIN PERSON p ON v.ssn = p.ssn
+        JOIN RELIEF_CENTER r ON v.center_id = r.center_id
+        WHERE v.center_id = ?
+       "
+        />
         <div className="flex gap-4 items-end pb-4 justify-end">
           <Block
             label="Center ID"
