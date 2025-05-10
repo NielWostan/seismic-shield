@@ -1,16 +1,3 @@
-# ************************************************************
-# Sequel Ace SQL dump
-# Version 20091
-#
-# https://sequel-ace.com/
-# https://github.com/Sequel-Ace/Sequel-Ace
-#
-# Host: Niels-MacBook-Pro.local (MySQL 9.2.0)
-# Database: cs4354.project
-# Generation Time: 2025-05-10 00:28:31 +0000
-# ************************************************************
-
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -22,6 +9,7 @@ SET NAMES utf8mb4;
 
 # Dump of table AFFECTED_COUNTY
 # ------------------------------------------------------------
+USE `cs4354.project`;
 
 DROP TABLE IF EXISTS `AFFECTED_COUNTY`;
 
