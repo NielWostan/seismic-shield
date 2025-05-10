@@ -8,13 +8,17 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Which relief centers have more total supplies than the average center?
     const query = `
-      SELECT rc.name, SUM(s.quantity) AS total_quantity
+      SELECT 
+        rc.name, 
+        SUM(s.quantity) AS total_quantity
       FROM SUPPLIES s
       JOIN RELIEF_CENTER rc ON s.center_id = rc.center_id
       GROUP BY rc.name
       HAVING total_quantity > (
-        SELECT AVG(total) FROM (
+        SELECT AVG(total) 
+        FROM (
           SELECT SUM(quantity) AS total
           FROM SUPPLIES
           GROUP BY center_id

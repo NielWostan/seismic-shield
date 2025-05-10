@@ -18,6 +18,7 @@ export async function POST(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Insert into RELIEF_CENTER table
     const insertQuery = `
       INSERT INTO RELIEF_CENTER (name, address)
       VALUES (?, ?)

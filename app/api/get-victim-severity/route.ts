@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // How many victims fall into critical, moderate, or minor severity levels, and who are they?
     const query = `
       SELECT 
         CASE 

@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // How many victims are in each county, and what are their names?
     const query = `
       SELECT 
         a.area_id,
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest) {
       JOIN PERSON p ON v.ssn = p.ssn
       GROUP BY a.area_id, a.name
       ORDER BY victim_count DESC;
-`;
+    `;
 
     const [rows] = await connection.query(query);
 

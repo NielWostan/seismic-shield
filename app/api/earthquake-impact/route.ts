@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Which earthquakes impacted the most counties and caused the highest number of victims per county?
     const query = `
       SELECT 
         e.earthquake_id,
@@ -19,8 +20,12 @@ export async function GET(req: NextRequest) {
       FROM EARTHQUAKE e
       JOIN AFFECTED_COUNTY ac ON e.area_id = ac.area_id
       LEFT JOIN VICTIM v ON v.area_id = ac.area_id
-      GROUP BY e.earthquake_id, e.date, e.magnitude
-      ORDER BY total_victims DESC;
+      GROUP BY 
+        e.earthquake_id,
+        e.date,
+        e.magnitude
+      ORDER BY 
+        total_victims DESC;
     `;
 
     const [rows] = await connection.query(query);

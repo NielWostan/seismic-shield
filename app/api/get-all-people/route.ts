@@ -8,6 +8,7 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Who are the people involved at relief centers, and are they victims or volunteers?
     const query = `
       SELECT 
         p.name,

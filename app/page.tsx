@@ -30,6 +30,12 @@ export default async function Page() {
       >
         Register Victim
       </Link>
+      <Link
+        href="/supplies"
+        className="h-16 text-xl bg-white border-2 border-black text-black rounded-md p-4 w-64 text-center"
+      >
+        Register Supplies
+      </Link>
       <hr className="border-1 border-black w-full my-8 opacity-30" />
       <Link
         href="/get-earthquakes"

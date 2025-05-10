@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
       throw new Error("Database connection not established");
     }
 
+    // Insert into EARTHQUAKE table
     const insertQuery = `
       INSERT INTO earthquake (
         earthquake_id, magnitude, date, time, latitude, longitude,

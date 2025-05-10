@@ -8,27 +8,31 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Which counties have the highest percentage of victims who required surgery?
     const query = `
       SELECT 
         ac.name AS county_name,
         IFNULL(crit.critical_victims, 0) AS critical_victims,
         ROUND(
-            IFNULL(crit.critical_victims, 0) / total.total_victims * 100, 2
+          IFNULL(crit.critical_victims, 0) / total.total_victims * 100, 2
         ) AS critical_percentage
-        FROM (
-        SELECT area_id, COUNT(*) AS total_victims
+      FROM (
+        SELECT 
+          area_id, 
+          COUNT(*) AS total_victims
         FROM VICTIM
         GROUP BY area_id
-        ) AS total
-        JOIN AFFECTED_COUNTY ac ON total.area_id = ac.area_id
-        LEFT JOIN (
-        SELECT area_id, COUNT(*) AS critical_victims
+      ) AS total
+      JOIN AFFECTED_COUNTY ac ON total.area_id = ac.area_id
+      LEFT JOIN (
+        SELECT 
+          area_id, 
+          COUNT(*) AS critical_victims
         FROM VICTIM
         WHERE treatment LIKE '%surgery%'
         GROUP BY area_id
-        ) AS crit ON total.area_id = crit.area_id
-        ORDER BY critical_percentage DESC;
-
+      ) AS crit ON total.area_id = crit.area_id
+      ORDER BY critical_percentage DESC;
     `;
 
     const [rows] = await connection.query(query);

@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
     const connection = await getConnection();
     if (!connection) throw new Error("Database connection not established");
 
+    // Retrieve volunteers with their personal and assigned relief center info, optionally filtered by centerId
     const query = centerId
       ? `
         SELECT 
